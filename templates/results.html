@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results - {{ topic }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #f4f4f4;
+        }
+        h1 { color: #333; text-align: center; }
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 6px solid #ccc;
+        }
+        .positive { border-left-color: #28a745; }
+        .negative { border-left-color: #dc3545; }
+        .neutral  { border-left-color: #ffc107; }
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            color: white;
+        }
+        .badge-positive { background-color: #28a745; }
+        .badge-negative { background-color: #dc3545; }
+        .badge-neutral  { background-color: #ffc107; color: #333; }
+        .card h3 { margin: 0 0 8px 0; }
+        .card p  { color: #666; font-size: 14px; }
+        .meta    { font-size: 12px; color: #999; margin-top: 8px; }
+        a.read-more {
+            color: #007bff;
+            font-size: 14px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>📰 News: "{{ topic }}"</h1>
+    <a href="/" class="back-btn">← Search Again</a>
+
+    {% if articles %}
+        {% for article in articles %}
+        <div class="card {{ article.sentiment | lower }}">
+            <div style="display:flex; justify-content:space-between;">
+                <h3>{{ article.title }}</h3>
+                <span class="badge badge-{{ article.sentiment | lower }}">
+                    {{ article.sentiment }}
+                </span>
+            </div>
+            <p>{{ article.description }}</p>
+            <div class="meta">
+                Source: {{ article.source }} |
+                Score: {{ article.score }} |
+                <a href="{{ article.url }}" 
+                   target="_blank" class="read-more">
+                   Read full article →
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center;">No articles found. Try another topic!</p>
+    {% endif %}
+</body>
+</html>
